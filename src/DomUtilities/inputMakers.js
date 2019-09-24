@@ -2,6 +2,7 @@
 function makeNumericInput(type, id, min = 0, max = 100, step = 1) {
     let el = document.createElement('input');
     el.type = type;
+    el.value = min;
     el.min = min;
     el.max = max;
     el.step = step;

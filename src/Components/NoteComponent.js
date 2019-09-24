@@ -7,6 +7,8 @@ import {
 } from "../DomUtilities/inputMakers.js";
 import { labelEach } from "../DomUtilities/misc.js";
 import { Oscilloscope } from "../AudioUtilities/Oscilloscope.js";
+import Slider from "../SubComponents/Slider.js";
+import { Toggle } from "../SubComponents/Toggle.js";
 
 export default class NoteComponent extends HTMLElement {
     constructor(context, name) {
@@ -21,9 +23,9 @@ export default class NoteComponent extends HTMLElement {
         let title = document.createElement('h1');
         title.innerText = name;
 
-        this.toggle = makeCheckbox("toggle");
-        this.volume = makeRangeInput("volume", {
-            min: 0, max: 1, step: 0.1
+        this.toggle = new Toggle("toggle");
+        this.volume = new Slider("volume", {
+            min: 0, max: 1, step: 0.01
         });
 
         this.frequency = makeNumberInput("frequency", {
@@ -58,8 +60,7 @@ export default class NoteComponent extends HTMLElement {
         let inputs = [
             this.volume,
             this.frequency,
-            this.waveform,
-            this.toggle
+            this.waveform
         ];
 
         labelEach(inputs);
@@ -80,7 +81,14 @@ export default class NoteComponent extends HTMLElement {
 
             h1 {
                 justify-self: start;
-                grid-column: span 2;
+            }
+
+            sb-toggle {
+                place-self: center end;
+            }
+
+            sb-range {
+                place-self: center end;
             }
 
             input {
@@ -107,7 +115,6 @@ export default class NoteComponent extends HTMLElement {
 
     connectedCallback() {
         this.volume.addEventListener("change", () => {
-            console.log(this.note);
             this.note.volume = this.volume.value;
         });
 

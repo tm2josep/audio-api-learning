@@ -5,7 +5,7 @@ export default class NoteManager extends Manager {
         this.oscillator = context.createOscillator();
 
         this.oscillator.type = "sine";
-        this.oscillator.frequency.value = 100;
+        this.oscillator.frequency.value = 20;
 
         this.oscillator.connect(this.gainNode);
         this.oscillator.start();
