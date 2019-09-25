@@ -5,101 +5,75 @@ export default class Slider extends HTMLElement {
         super();
         this.id = id;
         this.input = makeRangeInput(id, { min, max, step });
+
         this.shadow = this.attachShadow({ mode: 'open' });
-        this.shadow.appendChild(this.input);
+
+        let containingDiv = document.createElement('div');
+        containingDiv.classList.add("range-slider");
+        this.input.classList.add("range-slider__range");
+        containingDiv.appendChild(this.input);
+
+        this.shadow.appendChild(containingDiv);
 
         let style = document.createElement('style');
-        style.innerHTML = `          
-        input[type=range] {
+        style.innerHTML = `                              
+          .range-slider__range {
             -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-          
-        input[type=range]::-webkit-slider-runnable-track {
-            -webkit-appearance: none;
-            background: rgba(59,173,227,1);
-            background: -moz-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(59,173,227,1)), color-stop(25%, rgba(87,111,230,1)), color-stop(51%, rgba(152,68,183,1)), color-stop(100%, rgba(255,53,127,1)));
-            background: -webkit-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -o-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -ms-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
-            height: 2px;
-        }
-          
-        input[type=range]:focus {
+            height: 10px;
+            border-radius: 5px;
+            background: #d7dcdf;
             outline: none;
-        }
-          
-        input[type=range]::-moz-range-track {
-            -moz-appearance: none;
-            background: rgba(59,173,227,1);
-            background: -moz-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(59,173,227,1)), color-stop(25%, rgba(87,111,230,1)), color-stop(51%, rgba(152,68,183,1)), color-stop(100%, rgba(255,53,127,1)));
-            background: -webkit-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -o-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: -ms-linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            background: linear-gradient(45deg, rgba(59,173,227,1) 0%, rgba(87,111,230,1) 25%, rgba(152,68,183,1) 51%, rgba(255,53,127,1) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3bade3 ', endColorstr='#ff357f ', GradientType=1 );
-            height: 2px;
-        }
-          
-        input[type=range]::-webkit-slider-thumb {
+            padding: 0;
+            margin: 10px;
+          }
+
+          .range-slider__range::-webkit-slider-thumb {
             -webkit-appearance: none;
-            border: 2px solid;
+                    appearance: none;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            height: 10px;
-            width: 10px;
-            max-width: 80px;
-            position: relative;
-            bottom: 3px;
-            background-color: #1d1c25;
-            cursor: -webkit-grab;
-          
-            -webkit-transition: border 1000ms ease;
-            transition: border 1000ms ease;
-        }
-          
-        input[type=range]::-moz-range-thumb {
-            -moz-appearance: none;
-            border: 2px solid;
+            background: #2c3e50;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+          }
+          .range-slider__range::-webkit-slider-thumb:hover {
+            background: #1abc9c;
+          }
+          .range-slider__range:active::-webkit-slider-thumb {
+            background: #1abc9c;
+          }
+          .range-slider__range::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border: 0;
             border-radius: 50%;
-            height: 10px;
-            width: 10px;
-            max-width: 80px;
-            position: relative;
-            bottom: 3px;
-            background-color: #1d1c25;
-            cursor: -moz-grab;
-            -moz-transition: border 1000ms ease;
-            transition: border 1000ms ease;
-        }
+            background: #2c3e50;
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+          }
+          .range-slider__range::-moz-range-thumb:hover {
+            background: #1abc9c;
+          }
+          .range-slider__range:active::-moz-range-thumb {
+            background: #1abc9c;
+          }
+          .range-slider__range:focus::-webkit-slider-thumb {
+            box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1abc9c;
+          }
+
+          input::-moz-range-track {
+            background: #d7dcdf;
+            border: 0;
+          }
           
-        input[type=range]::-webkit-slider-thumb {
-             border-color: rgb(59,173,227);
-        }
-          
-        input[type=range]::-moz-range-thumb {
-             border-color: rgb(59,173,227);
-        }
-          
-        input[type=range]::-webkit-slider-thumb:active {
-            cursor: -webkit-grabbing;
-        }
-          
-        input[type=range]::-moz-range-thumb:active {
-            cursor: -moz-grabbing;
-        }`;
+          input::-moz-focus-inner,
+          input::-moz-focus-outer {
+            border: 0;
+          }
+          `;
 
         this.shadow.appendChild(style);
-    }
-
-    connectedCallback() {
-        this.input.addEventListener('change', function () {
-            let rangePercent = (this.value / this.max) * 100;
-            this.style.filter = `hue-rotate(-${rangePercent}deg)`
-        });
     }
 
     addEventListener(name, callback) {
